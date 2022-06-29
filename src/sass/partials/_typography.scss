@@ -1,0 +1,36 @@
+h1{
+  text-align: center;
+  color: $light-font;
+  margin-top: 11vh;
+  font-size: 80px;
+  font-weight: bold;
+  font-family: $font-family;
+  letter-spacing: 40px;
+}
+
+h2{
+  font-size: 45px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 40vw;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 5px;
+  line-height: 40px;
+}
+
+h3{
+  font-size: 30px;
+  font-weight: normal;
+  letter-spacing: 3px;
+  margin: 0;
+  padding: 0;
+  text-indent: 3px;
+}
+
+p{
+  width: 100%;
+  float: right;
+  text-align: center;
+  letter-spacing: 5px;
+}
