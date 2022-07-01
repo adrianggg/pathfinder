@@ -1,0 +1,44 @@
+#finder {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-around;
+
+  > h2{
+    font-size: 30px;
+    text-align: center;
+    //   width: 100%;
+  }
+}
+
+table{
+  width: 60vh;
+  height: 60vh;
+  border: 2px solid $light-font;
+  border-collapse: collapse;
+  margin: 50px;
+    
+}
+
+td{
+  width: 10%;
+  height: 10%;
+  border: 2px solid $light-font;
+}
+
+.btn-finder{
+  background-color: $selected-color;
+  color: $light-font;
+  border: none;
+  width: 160px;
+  height: 40px;
+}
+
+.short-path{
+  background-color: $active-color;
+}
+
+.path{
+  background-color: $selected-color;
+}
