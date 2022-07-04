@@ -33,18 +33,22 @@
             </div>
         </div>
 
-        
         <div id="finder">
 
         </div>
         <p class="footer-text">All rights reserved</p>
     </header>
     <script id="template-finder" type="text/x-handlebars-template">
-        <h2>{{title}}</h2>
-        <div class="table-wrapper">
+        <div class="finder">
+            <h2>{{title}}</h2>
+            <div class="table-wrapper">
+            </div>
+            <button type="button" class="btn-finder">{{btnText}}</button>
         </div>
-        <button type="button" class="btn-finder">{{btnText}}</button>
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+
     <script src="js/app.js" type="module"></script>
 </body>
 </html>

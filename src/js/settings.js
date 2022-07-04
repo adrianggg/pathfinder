@@ -24,5 +24,4 @@ export const classNames = {
   
 export const templates = {
   finder: Handlebars.compile(document.querySelector(select.templateOf.finder).innerHTML),
-  
 };

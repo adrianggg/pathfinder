@@ -1,10 +1,13 @@
-#finder {
+.finder {
+  // margin: 0 auto;
+  // width: 100%;
+  // height: 60vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   align-content: space-around;
-
+  // background-color: red;
   > h2{
     font-size: 30px;
     text-align: center;

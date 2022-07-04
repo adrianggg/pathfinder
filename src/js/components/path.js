@@ -1,14 +1,43 @@
+import {templates,select} from '../settings.js';
+import utils from '../utils.js';
+
 class Path{
   constructor(){
-    this.getElements();
-
+    const thisPath = this;
+    thisPath.step = 1;
     this.renderTable();
+    this.getElements();
 
     this.initAction();
 
     this.drawPath();
   }
   renderTable(){
+
+    const thisPath = this;
+  
+    let pageData = null;
+    switch(thisPath.step) {
+    case 1:
+      pageData = { title: 'Draw routes', btnText: 'Finish drawing' };
+      break;
+    case 2:
+      pageData = { title: 'Pick start and finish', btnText: 'Compute' };
+      break;
+    case 3:
+      pageData = { title: 'The best route is', btnText: 'Start again' };
+      break;
+    }    
+    
+    const generatedHTML = templates.finder(pageData);
+    console.log(generatedHTML);
+    thisPath.element = utils.createDOMFromHTML(generatedHTML);
+
+    const finderConatiner = document.querySelector(select.containerOf.pathfinder);
+
+    /* add element to menu*/
+    finderConatiner.appendChild(thisPath.element);
+    
     let html = '';
     for(let row=0;row<10;row++){
       for(let col=0; col<10;col++){
@@ -18,14 +47,17 @@ class Path{
         </div>`;
       }
     }
-    this.dom.wrapper.innerHTML = html;
+    console.log(html);
+    document.querySelector(select.containerOf.finder).innerHTML = html;
   }
+
+
   initAction(){
     const thisPath = this;
     this.dom.btn.addEventListener('click',function(event){
       event.preventDefault();
       
-      thisPath.dom.btn.innerHTML = 'mk';
+      thisPath.step++;
     });
   }
   
