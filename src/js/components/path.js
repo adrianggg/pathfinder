@@ -1,19 +1,16 @@
-import {templates,select} from '../settings.js';
+import {templates,select,classNames} from '../settings.js';
 import utils from '../utils.js';
 
 class Path{
   constructor(){
     const thisPath = this;
     thisPath.step = 1;
+    thisPath.pathArray = [];
     this.renderTable();
-    this.getElements();
-
-    this.initAction();
-
-    this.drawPath();
   }
   renderTable(){
-
+    const finderConatiner = document.querySelector(select.containerOf.pathfinder);
+    finderConatiner.innerHTML = '';
     const thisPath = this;
   
     let pageData = null;
@@ -33,39 +30,85 @@ class Path{
     console.log(generatedHTML);
     thisPath.element = utils.createDOMFromHTML(generatedHTML);
 
-    const finderConatiner = document.querySelector(select.containerOf.pathfinder);
-
-    /* add element to menu*/
+    console.log(finderConatiner);
     finderConatiner.appendChild(thisPath.element);
-    
+    this.getElements();
+    this.initAction();
+  }
+
+  drawTable(){
+    // const thisPath = this;
     let html = '';
-    for(let row=0;row<10;row++){
-      for(let col=0; col<10;col++){
+    for(let row=1;row<=10;row++){
+      for(let col=1; col<=10;col++){
         html += `<div class="square" data-row="${row}" data-col="${col}">
         row: ${row}
         col: ${col}
         </div>`;
       }
     }
-    console.log(html);
-    document.querySelector(select.containerOf.finder).innerHTML = html;
-  }
 
+    // console.log(html);
+    document.querySelector(select.containerOf.finder).innerHTML = html;
+    // thisPath.initAction();
+  }
 
   initAction(){
     const thisPath = this;
+    this.drawTable();
+    switch(thisPath.step) {
+    case 1:
+      console.log('draw');
+      thisPath.drawPath();
+      break;
+    case 2:
+      console.log('Start,END');
+      thisPath.picksquare();
+      break;
+    case 3:
+      console.log('finish drawing');
+      break;
+    }    
     this.dom.btn.addEventListener('click',function(event){
       event.preventDefault();
-      
-      thisPath.step++;
+      thisPath.renderTable();      
+    });
+    if(thisPath.step==3){
+      thisPath.step=0;
+    }
+    thisPath.step++;
+  }
+
+
+  picksquare(){
+    const thisPath = this;
+    console.log(thisPath.pathArray);
+    for(let elementID in thisPath.pathArray){
+      let element = thisPath.pathArray[elementID];
+      console.log(element.row);
+      thisPath.dom.wrapper.querySelector(`[data-row="${element.row}"][data-col="${element.col}"]`)
+        .classList.add(classNames.finder.path);
+    }
+    thisPath.pickArray=[];
+    this.dom.wrapper.addEventListener('click',function(event){
+      if(event.target.classList.contains(classNames.finder.path) && thisPath.pickArray.length<2){      
+        event.target.classList.add('start');
+        thisPath.pickArray.push({
+          col:parseInt(event.target.getAttribute('data-col')),
+          row:parseInt(event.target.getAttribute('data-row'))
+        });
+      }else{
+        console.log('error');
+      }
     });
   }
   
   getElements(){
     this.dom = {};
-    this.dom.wrapper = document.querySelector('.table-wrapper');
     this.dom.btn = document.querySelector('.btn-finder');
+    this.dom.wrapper = document.querySelector('.table-wrapper');
   }
+
   drawPath(){
     const thisPath = this;
     this.dom.squares = this.dom.wrapper.querySelectorAll('.square');
@@ -89,7 +132,12 @@ class Path{
        ||
         document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow+1}"]`).classList.contains('path')
       ){
-        event.target.classList.add('path');
+        event.target.classList.add('path');  
+        thisPath.pathArray.push({
+          col: parseInt(event.target.getAttribute('data-col')),
+          row: parseInt(event.target.getAttribute('data-row'))
+        });
+        console.log(thisPath.pathArray);
       }else{
         console.log('false');
       }
