@@ -14,6 +14,8 @@ export const classNames = {
   finder: {
     path: 'path',
     shortpath: 'short-path',
+    end: 'end',
+    start: 'short-path'
   },
   // CODE ADDED START
   pages: {

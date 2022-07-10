@@ -58,18 +58,18 @@
   height: 40px;
 }
 
-.short-path{
-  background-color: $active-color;
-}
 
 .path{
   background-color: $selected-color;
 }
-
-.start{
-  background-color: white;
+.short-path{
+  background-color: $active-color;
 }
 
+// .start{
+//   background-color: white;
+// }
+
 .end{
-  background-color: black;
+  background-color: red;
 }

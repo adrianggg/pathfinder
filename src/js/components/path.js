@@ -85,14 +85,19 @@ class Path{
     console.log(thisPath.pathArray);
     for(let elementID in thisPath.pathArray){
       let element = thisPath.pathArray[elementID];
-      console.log(element.row);
       thisPath.dom.wrapper.querySelector(`[data-row="${element.row}"][data-col="${element.col}"]`)
         .classList.add(classNames.finder.path);
     }
     thisPath.pickArray=[];
+    let pickStart = true;
     this.dom.wrapper.addEventListener('click',function(event){
       if(event.target.classList.contains(classNames.finder.path) && thisPath.pickArray.length<2){      
-        event.target.classList.add('start');
+        if(pickStart){
+          event.target.classList.add(classNames.finder.start);
+          pickStart = !pickStart;
+        }else{
+          event.target.classList.add(classNames.finder.end);
+        }
         thisPath.pickArray.push({
           col:parseInt(event.target.getAttribute('data-col')),
           row:parseInt(event.target.getAttribute('data-row'))
@@ -124,12 +129,20 @@ class Path{
        &&
        !thisPath.dom.wrapper.querySelector('.path')
        ||
-        document.querySelector(`[data-col="${clickedCol-1}"][data-row="${clickedRow}"]`).classList.contains('path')
+        document.querySelector(`[data-col="${clickedCol-1}"][data-row="${clickedRow}"]`)
+       &&
+        document.querySelector(`[data-col="${clickedCol-1}"][data-row="${clickedRow}"]`).classList.contains('path') 
        ||
+       document.querySelector(`[data-col="${clickedCol+1}"][data-row="${clickedRow}"]`)
+       &&
         document.querySelector(`[data-col="${clickedCol+1}"][data-row="${clickedRow}"]`).classList.contains('path')
        ||
+        document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow-1}"]`)
+       &&
         document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow-1}"]`).classList.contains('path')
        ||
+        document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow+1}"]`)
+       &&
         document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow+1}"]`).classList.contains('path')
       ){
         event.target.classList.add('path');  
