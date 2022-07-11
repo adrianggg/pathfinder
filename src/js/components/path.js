@@ -124,29 +124,63 @@ class Path{
     console.log(thisPath.pathArray);
     this.calculatePath(thisPath.pickArray[0],thisPath.pickArray[1]);
   }
-  calculatePath(startPath,endPath){
-    const thisPath = this;
-    console.log('Start path',startPath);
+  // calculatePath(startPath,endPath){
+  //   const thisPath = this;
+  //   console.log('Start path',startPath);
 
-    thisPath.dom.wrapper.querySelector(`[data-col="${startPath.col}"][data-row="${startPath.row}"]`)
+  //   if(startPath.col == endPath.col && startPath.row == endPath.row){
+  //     return;
+  //   }else{
+  //     console.log('startCOL',startPath.col);
+  //     console.log('endCOL',endPath.col);
+  //   }
+  //   for(let elementID in thisPath.pathArray){
+  //     console.log(thisPath.pathArray[elementID].col);
+  //     console.log(startPath.col);
+  //     if(startPath.col == thisPath.pathArray[elementID].col && startPath.row == thisPath.pathArray[elementID].row){
+  //       startPath.col = startPath.col +1;
+  //       this.calculatePath(startPath,endPath);
+  //       return;
+  //     }
+  //   }
+  // }
+
+  calculatePath(square,endSquare){
+    const thisPath = this;
+    console.log('At the moment SQUARE',square);
+    console.log('End SQUARE',endSquare);
+    // let shortPathArray = [];
+    thisPath.dom.wrapper.querySelector(`[data-col="${square.col}"][data-row="${square.row}"]`)
       .classList.add(classNames.finder.shortpath);
-    if(startPath.col == endPath.col && startPath.row == endPath.row){
+    if(square.col == endSquare.col && square.row == endSquare.row){
       return;
-    }else{
-      console.log('startCOL',startPath.col);
-      console.log('endCOL',endPath.col);
     }
     for(let elementID in thisPath.pathArray){
-      console.log(thisPath.pathArray[elementID].col);
-      console.log(startPath.col);
-      if(startPath.col == thisPath.pathArray[elementID].col && startPath.row == thisPath.pathArray[elementID].row){
-        startPath.col = startPath.col +1;
-        this.calculatePath(startPath,endPath);
-        return;
+      // console.log(thisPath.pathArray[elementID]);
+      if(thisPath.pathArray[elementID].col == parseInt(square.col+1) && thisPath.pathArray[elementID].row == square.row){
+        square.col = parseInt(square.col+1);
+        thisPath.calculatePath(square,endSquare); 
       }
+      if(thisPath.pathArray[elementID].col == parseInt(square.col-1) && thisPath.pathArray[elementID].row == square.row){
+        square.col = parseInt(square.col-1);
+        thisPath.calculatePath(square,endSquare); 
+      }
+      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == parseInt(square.row)+1){
+        square.row = parseInt(square.row+1);
+        thisPath.calculatePath(square,endSquare); 
+      }
+      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == parseInt(square.row)-1){
+        square.row = parseInt(square.row-1);
+        thisPath.calculatePath(square,endSquare); 
+      }
+      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == square.row){
+        thisPath.pathArray.splice(elementID,1);
+        console.log(thisPath.pathArray);
+      }
+      return;
     }
-      
- 
+    return;
+    // console.log(thisPath.pathArray);  
 
   }
 
