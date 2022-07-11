@@ -5,7 +5,6 @@ class Path{
   constructor(){
     const thisPath = this;
     thisPath.step = 1;
-    thisPath.pathArray = [];
     this.renderTable();
   }
   renderTable(){
@@ -17,6 +16,7 @@ class Path{
     switch(thisPath.step) {
     case 1:
       pageData = { title: 'Draw routes', btnText: 'Finish drawing' };
+      thisPath.pathArray = [];
       break;
     case 2:
       pageData = { title: 'Pick start and finish', btnText: 'Compute' };
@@ -27,10 +27,10 @@ class Path{
     }    
     
     const generatedHTML = templates.finder(pageData);
-    console.log(generatedHTML);
+    // console.log(generatedHTML);
     thisPath.element = utils.createDOMFromHTML(generatedHTML);
 
-    console.log(finderConatiner);
+    // console.log(finderConatiner);
     finderConatiner.appendChild(thisPath.element);
     this.getElements();
     this.initAction();
@@ -67,6 +67,7 @@ class Path{
       break;
     case 3:
       console.log('finish drawing');
+      thisPath.shortPath();
       break;
     }    
     this.dom.btn.addEventListener('click',function(event){
@@ -79,15 +80,20 @@ class Path{
     thisPath.step++;
   }
 
-
-  picksquare(){
+  renderPath(){
     const thisPath = this;
-    console.log(thisPath.pathArray);
+    // console.log(thisPath.pathArray);
     for(let elementID in thisPath.pathArray){
       let element = thisPath.pathArray[elementID];
       thisPath.dom.wrapper.querySelector(`[data-row="${element.row}"][data-col="${element.col}"]`)
         .classList.add(classNames.finder.path);
     }
+  }
+
+  picksquare(){
+    const thisPath = this;
+    thisPath.renderPath();
+
     thisPath.pickArray=[];
     let pickStart = true;
     this.dom.wrapper.addEventListener('click',function(event){
@@ -102,8 +108,6 @@ class Path{
           col:parseInt(event.target.getAttribute('data-col')),
           row:parseInt(event.target.getAttribute('data-row'))
         });
-      }else{
-        console.log('error');
       }
     });
   }
@@ -113,17 +117,51 @@ class Path{
     this.dom.btn = document.querySelector('.btn-finder');
     this.dom.wrapper = document.querySelector('.table-wrapper');
   }
+  shortPath(){
+    const thisPath = this;
+    thisPath.renderPath();
+    console.log(thisPath.pickArray);
+    console.log(thisPath.pathArray);
+    this.calculatePath(thisPath.pickArray[0],thisPath.pickArray[1]);
+  }
+  calculatePath(startPath,endPath){
+    const thisPath = this;
+    console.log('Start path',startPath);
+
+    thisPath.dom.wrapper.querySelector(`[data-col="${startPath.col}"][data-row="${startPath.row}"]`)
+      .classList.add(classNames.finder.shortpath);
+    if(startPath.col == endPath.col && startPath.row == endPath.row){
+      return;
+    }else{
+      console.log('startCOL',startPath.col);
+      console.log('endCOL',endPath.col);
+    }
+    for(let elementID in thisPath.pathArray){
+      console.log(thisPath.pathArray[elementID].col);
+      console.log(startPath.col);
+      if(startPath.col == thisPath.pathArray[elementID].col && startPath.row == thisPath.pathArray[elementID].row){
+        startPath.col = startPath.col +1;
+        this.calculatePath(startPath,endPath);
+        return;
+      }
+    }
+      
+ 
+
+  }
+
+  // TODO change queryselector to  '>col border'
 
   drawPath(){
     const thisPath = this;
     this.dom.squares = this.dom.wrapper.querySelectorAll('.square');
-    console.log(this.dom.squares);
+    // console.log(this.dom.squares);
     this.dom.wrapper.addEventListener('click',function(event){
-      console.log(event.target);
+      // console.log(event.target);
       const clickedCol = parseInt(event.target.getAttribute('data-col'));
       const clickedRow = parseInt(event.target.getAttribute('data-row'));
-      console.log('Clicked Col',clickedCol);
-      console.log('Clicked Row',clickedRow);
+      // console.log('Clicked Col',clickedCol);
+      // console.log('Clicked Row',clickedRow);
       if(
         event.target.classList.contains('square')
        &&
@@ -150,9 +188,6 @@ class Path{
           col: parseInt(event.target.getAttribute('data-col')),
           row: parseInt(event.target.getAttribute('data-row'))
         });
-        console.log(thisPath.pathArray);
-      }else{
-        console.log('false');
       }
     });
   }
