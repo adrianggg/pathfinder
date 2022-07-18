@@ -20,6 +20,9 @@ export const classNames = {
   // CODE ADDED START
   pages: {
     active: 'active',
+  },
+  nav:{
+    active: 'activee',
   }
 };
   
