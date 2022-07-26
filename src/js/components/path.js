@@ -120,71 +120,130 @@ class Path{
   shortPath(){
     const thisPath = this;
     thisPath.renderPath();
-    console.log(thisPath.pickArray);
-    console.log(thisPath.pathArray);
-    this.calculatePath(thisPath.pickArray[0],thisPath.pickArray[1]);
-  }
-  // calculatePath(startPath,endPath){
-  //   const thisPath = this;
-  //   console.log('Start path',startPath);
-
-  //   if(startPath.col == endPath.col && startPath.row == endPath.row){
-  //     return;
-  //   }else{
-  //     console.log('startCOL',startPath.col);
-  //     console.log('endCOL',endPath.col);
-  //   }
-  //   for(let elementID in thisPath.pathArray){
-  //     console.log(thisPath.pathArray[elementID].col);
-  //     console.log(startPath.col);
-  //     if(startPath.col == thisPath.pathArray[elementID].col && startPath.row == thisPath.pathArray[elementID].row){
-  //       startPath.col = startPath.col +1;
-  //       this.calculatePath(startPath,endPath);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  calculatePath(square,endSquare){
-    const thisPath = this;
-    console.log('At the moment SQUARE',square);
-    console.log('End SQUARE',endSquare);
-    // let shortPathArray = [];
-    thisPath.dom.wrapper.querySelector(`[data-col="${square.col}"][data-row="${square.row}"]`)
-      .classList.add(classNames.finder.shortpath);
-    if(square.col == endSquare.col && square.row == endSquare.row){
-      return;
+    console.log('pick',thisPath.pickArray);
+    console.log('path',thisPath.pathArray);
+    const squares = thisPath.dom.wrapper.querySelectorAll('.square');
+    console.log(squares);
+    const squareArray = [];
+    for(let i=0;i<10;i++){
+      squareArray[i] = [];
+      for(let j=0;j<10;j++){
+        if(squares[i*10+j].classList.contains('path')){
+          squareArray[i][j] = 'Empty';
+        }else{
+          squareArray[i][j] = 'Obstacle';
+        }
+      }
     }
-    for(let elementID in thisPath.pathArray){
-      // console.log(thisPath.pathArray[elementID]);
-      if(thisPath.pathArray[elementID].col == parseInt(square.col+1) && thisPath.pathArray[elementID].row == square.row){
-        square.col = parseInt(square.col+1);
-        thisPath.calculatePath(square,endSquare); 
+    squareArray[thisPath.pickArray[0].row-1][thisPath.pickArray[0].col-1]= 'start';
+    squareArray[thisPath.pickArray[1].row-1][thisPath.pickArray[1].col-1]= 'end';
+    console.log(squareArray);
+    console.log(
+      this.shortestPath([thisPath.pickArray[0].row-1,thisPath.pickArray[0].col-1],squareArray)
+    );
+  }
+  shortestPath(startCordinates,grid){
+    const distanceFromTop = startCordinates[0];
+    const distanceFromLeft = startCordinates[1];
+    console.log(distanceFromTop);
+    console.log(distanceFromLeft);
+
+    let location = {
+      distanceFromTop:distanceFromTop,
+      distanceFromLeft:distanceFromLeft,
+      path: [],
+      status: 'start'
+    };
+    
+    const queue = [location];
+    while (queue.length > 0){
+      
+      const currentLocation = queue.shift();
+      
+      let newLocation = this.exploreInDirection(currentLocation,'up',grid);
+      
+      
+      if(newLocation.status === 'end'){
+        return newLocation.path;
+      }else if(newLocation.status === 'Valid'){
+        queue.push(newLocation);
       }
-      if(thisPath.pathArray[elementID].col == parseInt(square.col-1) && thisPath.pathArray[elementID].row == square.row){
-        square.col = parseInt(square.col-1);
-        thisPath.calculatePath(square,endSquare); 
+      
+      newLocation = this.exploreInDirection(currentLocation,'right',grid);
+      if(newLocation.status === 'end'){
+        return newLocation.path;
+      }else if(newLocation.status === 'Valid'){
+        queue.push(newLocation);
       }
-      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == parseInt(square.row)+1){
-        square.row = parseInt(square.row+1);
-        thisPath.calculatePath(square,endSquare); 
+      
+      newLocation = this.exploreInDirection(currentLocation,'down',grid);
+      if(newLocation.status === 'end'){
+        return newLocation.path;
+      }else if(newLocation.status === 'Valid'){
+        queue.push(newLocation);
       }
-      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == parseInt(square.row)-1){
-        square.row = parseInt(square.row-1);
-        thisPath.calculatePath(square,endSquare); 
+      
+      newLocation = this.exploreInDirection(currentLocation,'left',grid);
+      if(newLocation.status === 'end'){
+        return newLocation.path;
+      }else if(newLocation.status === 'Valid'){
+        queue.push(newLocation);
       }
-      if(thisPath.pathArray[elementID].col == square.col && thisPath.pathArray[elementID].row == square.row){
-        thisPath.pathArray.splice(elementID,1);
-        console.log(thisPath.pathArray);
-      }
-      return;
+      
+      return false;
     }
-    return;
-    // console.log(thisPath.pathArray);  
 
   }
+  locationStatus(location,grid){
+    const gridSize = grid.lenght;
+    const dft = location.distanceFromTop;
+    const dfl = location.distanceFromLeft;
+    
+    if(
+      location.distanceFromLeft <  0 ||
+       location.distanceFromLeft >= gridSize ||
+       location.distanceFromTop  <  0 ||
+       location.distanceFromTop  >= gridSize
+    ){
+      return 'Invalid';
+    }else if (grid[dft][dfl] == 'end'){
+      return 'end';
+    }else if (grid[dft][dfl] !== 'Empty'){
+      return 'Blocked';
+    }else{
+      return 'Valid';
+    }
+  }
+  exploreInDirection(currentLocation,direction,grid){
+    const newPath = currentLocation.path.slice();
+    newPath.push(direction);
 
-  // TODO change queryselector to  '>col border'
+    let dft = currentLocation.distanceFromTop;
+    let dfl = currentLocation.distanceFromLeft;
+
+    if(direction === 'up'){
+      dft -= 1;
+    }else if (direction === 'right'){
+      dfl += 1;
+    }else if (direction === 'down'){
+      dft += 1;
+    }else if (direction === 'left'){
+      dfl -= 1;
+    }
+
+    let newLocation = {
+      distanceFromTop: dft,
+      distanceFromLeft: dfl,
+      path:newPath,
+      status: 'Unkown'
+    };
+    newLocation.status = this.locationStatus(newLocation,grid);
+
+    if(newLocation.status === 'Valid'){
+      grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
+    }
+    return newLocation;
+  }
 
   drawPath(){
     const thisPath = this;
@@ -219,8 +278,8 @@ class Path{
       ){
         event.target.classList.add('path');  
         thisPath.pathArray.push({
-          col: parseInt(event.target.getAttribute('data-col')),
-          row: parseInt(event.target.getAttribute('data-row'))
+          row: parseInt(event.target.getAttribute('data-row')),
+          col: parseInt(event.target.getAttribute('data-col'))
         });
       }
     });

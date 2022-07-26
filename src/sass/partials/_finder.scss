@@ -15,9 +15,15 @@
   }
 }
 
-// #finder{
-//   display: none;
-// }
+#pages {
+  > * {
+    display: none;
+  }
+
+  > .active {
+    display: block;
+  }
+}
 // table{
 //   width: 60vh;
 //   height: 60vh;
