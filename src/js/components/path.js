@@ -135,111 +135,129 @@ class Path{
         }
       }
     }
-    squareArray[thisPath.pickArray[0].row-1][thisPath.pickArray[0].col-1]= 'start';
-    squareArray[thisPath.pickArray[1].row-1][thisPath.pickArray[1].col-1]= 'end';
+    squareArray[thisPath.pickArray[0].row-1][thisPath.pickArray[0].col-1]= 'Start';
+    squareArray[thisPath.pickArray[1].row-1][thisPath.pickArray[1].col-1]= 'Goal';
     console.log(squareArray);
-    console.log(
-      this.shortestPath([thisPath.pickArray[0].row-1,thisPath.pickArray[0].col-1],squareArray)
-    );
-  }
-  shortestPath(startCordinates,grid){
-    const distanceFromTop = startCordinates[0];
-    const distanceFromLeft = startCordinates[1];
-    console.log(distanceFromTop);
-    console.log(distanceFromLeft);
-
-    let location = {
-      distanceFromTop:distanceFromTop,
-      distanceFromLeft:distanceFromLeft,
-      path: [],
-      status: 'start'
-    };
     
-    const queue = [location];
-    while (queue.length > 0){
-      
-      const currentLocation = queue.shift();
-      
-      let newLocation = this.exploreInDirection(currentLocation,'up',grid);
-      
-      
-      if(newLocation.status === 'end'){
+    const shortestPath = this.findShortestPath([thisPath.pickArray[0].row-1,thisPath.pickArray[0].col-1],squareArray);
+    console.log(shortestPath);
+    thisPath.drawShortestPath(shortestPath,thisPath.pickArray[0]);
+  }
+  drawShortestPath(path,square){
+    this.dom.wrapper.querySelector(`[data-row="${square.row}"][data-col="${square.col}"]`).classList.add('short-path');
+    if(path.length==0){
+      return;
+    }else{
+      const direction = path.shift();
+      if (direction === 'up') {
+        square.row -= 1;
+      } else if (direction === 'right') {
+        square.col += 1;
+      } else if (direction === 'down') {
+        square.row += 1;
+      } else if (direction === 'left') {
+        square.col -= 1;
+      }
+      this.drawShortestPath(path,square);
+    }
+  }
+  
+  findShortestPath(startCoordinates, grid){
+    var distanceFromTop = startCoordinates[0];
+    var distanceFromLeft = startCoordinates[1];
+
+    var location = {
+      distanceFromTop: distanceFromTop,
+      distanceFromLeft: distanceFromLeft,
+      path: [],
+      status: 'Start'
+    };
+
+    var queue = [location];
+
+    while (queue.length > 0) {
+
+      var currentLocation = queue.shift();
+
+      var newLocation = this.exploreInDirection(currentLocation, 'up', grid);
+      if (newLocation.status === 'Goal') {
         return newLocation.path;
-      }else if(newLocation.status === 'Valid'){
+      } else if (newLocation.status === 'Valid') {
         queue.push(newLocation);
       }
-      
-      newLocation = this.exploreInDirection(currentLocation,'right',grid);
-      if(newLocation.status === 'end'){
+
+      newLocation = this.exploreInDirection(currentLocation, 'right', grid);
+      if (newLocation.status === 'Goal') {
         return newLocation.path;
-      }else if(newLocation.status === 'Valid'){
+      } else if (newLocation.status === 'Valid') {
         queue.push(newLocation);
       }
-      
-      newLocation = this.exploreInDirection(currentLocation,'down',grid);
-      if(newLocation.status === 'end'){
+
+      newLocation = this.exploreInDirection(currentLocation, 'down', grid);
+      if (newLocation.status === 'Goal') {
         return newLocation.path;
-      }else if(newLocation.status === 'Valid'){
+      } else if (newLocation.status === 'Valid') {
         queue.push(newLocation);
       }
-      
-      newLocation = this.exploreInDirection(currentLocation,'left',grid);
-      if(newLocation.status === 'end'){
+
+      newLocation = this.exploreInDirection(currentLocation, 'left', grid);
+      if (newLocation.status === 'Goal') {
         return newLocation.path;
-      }else if(newLocation.status === 'Valid'){
+      } else if (newLocation.status === 'Valid') {
         queue.push(newLocation);
       }
-      
-      return false;
     }
 
+    return false;
+
   }
-  locationStatus(location,grid){
-    const gridSize = grid.lenght;
-    const dft = location.distanceFromTop;
-    const dfl = location.distanceFromLeft;
-    
-    if(
-      location.distanceFromLeft <  0 ||
-       location.distanceFromLeft >= gridSize ||
-       location.distanceFromTop  <  0 ||
-       location.distanceFromTop  >= gridSize
-    ){
+
+  locationStatus(location, grid){
+    var gridSize = grid.length;
+    var dft = location.distanceFromTop;
+    var dfl = location.distanceFromLeft;
+
+    if (location.distanceFromLeft < 0 ||
+        location.distanceFromLeft >= gridSize ||
+        location.distanceFromTop < 0 ||
+        location.distanceFromTop >= gridSize) {
+
       return 'Invalid';
-    }else if (grid[dft][dfl] == 'end'){
-      return 'end';
-    }else if (grid[dft][dfl] !== 'Empty'){
+    } else if (grid[dft][dfl] === 'Goal') {
+      return 'Goal';
+    } else if (grid[dft][dfl] !== 'Empty') {
       return 'Blocked';
-    }else{
+    } else {
       return 'Valid';
     }
   }
-  exploreInDirection(currentLocation,direction,grid){
-    const newPath = currentLocation.path.slice();
+
+  exploreInDirection(currentLocation, direction, grid){
+    var newPath = currentLocation.path.slice();
     newPath.push(direction);
 
-    let dft = currentLocation.distanceFromTop;
-    let dfl = currentLocation.distanceFromLeft;
+    var dft = currentLocation.distanceFromTop;
+    var dfl = currentLocation.distanceFromLeft;
 
-    if(direction === 'up'){
+    if (direction === 'up') {
       dft -= 1;
-    }else if (direction === 'right'){
+    } else if (direction === 'right') {
       dfl += 1;
-    }else if (direction === 'down'){
+    } else if (direction === 'down') {
       dft += 1;
-    }else if (direction === 'left'){
+    } else if (direction === 'left') {
       dfl -= 1;
     }
 
-    let newLocation = {
+    var newLocation = {
       distanceFromTop: dft,
       distanceFromLeft: dfl,
-      path:newPath,
-      status: 'Unkown'
+      path: newPath,
+      status: 'Unknown'
     };
-    newLocation.status = this.locationStatus(newLocation,grid);
+    newLocation.status = this.locationStatus(newLocation, grid);
 
-    if(newLocation.status === 'Valid'){
+    if (newLocation.status === 'Valid') {
       grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
     }
     return newLocation;
@@ -248,13 +266,9 @@ class Path{
   drawPath(){
     const thisPath = this;
     this.dom.squares = this.dom.wrapper.querySelectorAll('.square');
-    // console.log(this.dom.squares);
     this.dom.wrapper.addEventListener('click',function(event){
-      // console.log(event.target);
       const clickedCol = parseInt(event.target.getAttribute('data-col'));
       const clickedRow = parseInt(event.target.getAttribute('data-row'));
-      // console.log('Clicked Col',clickedCol);
-      // console.log('Clicked Row',clickedRow);
       if(
         event.target.classList.contains('square')
        &&
