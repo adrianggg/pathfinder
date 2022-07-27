@@ -1,31 +1,49 @@
 h1{
   text-align: center;
   color: $light-font;
-  margin-top: 11vh;
-  font-size: 80px;
+  margin-top: 5vh;
   font-weight: bold;
   font-family: $font-family;
-  letter-spacing: 40px;
+  letter-spacing: 10px;
+  font-size: 30px;
+  @include medium{
+    margin-top: 11vh;
+    letter-spacing: 35px;
+    font-size: 60px;
+  }
+  @include large{
+    letter-spacing: 40px;
+    font-size: 80px;
+  }
 }
 
 h2{
-  font-size: 45px;
   font-weight: bold;
   text-transform: uppercase;
-  width: 50vw;
+  width: 70vw;
   margin: 0;
   padding: 0;
+  font-size: 15px;
   letter-spacing: 5px;
-  line-height: 40px;
+  @include medium{
+    width: 50vw;
+    font-size: 45px;
+    letter-spacing: 5px;
+    line-height: 40px;
+  }
 }
 
 h3{
-  font-size: 30px;
   font-weight: normal;
-  letter-spacing: 3px;
   margin: 0;
   padding: 0;
   text-indent: 3px;
+  font-size: 10px;
+  letter-spacing: 5px;
+  @include medium{
+    letter-spacing: 3px;
+    font-size: 30px;
+  }
 }
 
 p{

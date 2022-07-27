@@ -4,9 +4,12 @@
 
 .left-image {
   position: relative;
+  width: 60vw;
+  margin: 5vh 10vw 2vh 10vw;
+  @include medium{
   margin: 30vh 10vw 5vh 10vw;
-
   width: 40vw;
+  }
   //   height: 40vh;
   //   background-color: blue;
   > img {
@@ -23,9 +26,13 @@
 
 .right-image{
   position: relative;
-  margin: 5vh 5vw;
   float: right;
-  width: 60vw;
+  margin: 5vh 2vw;
+  width: 80vw;
+  @include medium{
+    margin: 5vh 5vw;
+    width: 60vw;
+  }
   //   height: 40vh;
   //   background-color: blue;
   > img {
@@ -35,7 +42,10 @@
 
   > .inner-text {
     position: absolute;
-    left: -27%;
+    left: -15%;
+    @include medium{
+      left: -27%;
+    }
     top: 10%;
   }
 }

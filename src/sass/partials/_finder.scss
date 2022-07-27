@@ -9,8 +9,11 @@
   align-content: space-around;
   // background-color: red;
   > h2{
-    font-size: 30px;
     text-align: center;
+    font-size: 15px;
+    @include medium{
+      font-size: 30px;
+    }
     //   width: 100%;
   }
 }
@@ -24,30 +27,24 @@
     display: block;
   }
 }
-// table{
-//   width: 60vh;
-//   height: 60vh;
-//   border: 2px solid $light-font;
-//   border-collapse: collapse;
-//   margin: 50px;
-    
-// }
-
-// td{
-//   width: 10%;
-//   height: 10%;
-//   border: 2px solid $light-font;
-// }
 
 .table-wrapper{
-  height: 60vh;
-  width: 60vh;
+  width: 98vw;
+  height: 98vw;
   // background-color: red;
   border: 1px solid $light-font;
   margin: 30px;
   border-collapse: collapse;
   display: flex;
   flex-wrap: wrap;
+  @include medium{
+    height: 80vw;
+    width: 80vw;
+  }
+  @include large{
+    height: 60vh;
+    width: 60vh;
+  }
 }
 
 .square{
@@ -63,8 +60,17 @@
   background-color: $selected-color;
   color: $light-font;
   border: none;
-  width: 160px;
+  font-family: $font-family;
+  width: 150px;
   height: 40px;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  @include large{
+    width: 160px;
+    height: 40px;
+  }
 }
 
 

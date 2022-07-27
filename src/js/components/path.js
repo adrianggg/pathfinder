@@ -41,10 +41,7 @@ class Path{
     let html = '';
     for(let row=1;row<=10;row++){
       for(let col=1; col<=10;col++){
-        html += `<div class="square" data-row="${row}" data-col="${col}">
-        row: ${row}
-        col: ${col}
-        </div>`;
+        html += `<div class="square" data-row="${row}" data-col="${col}"></div>`;
       }
     }
 
