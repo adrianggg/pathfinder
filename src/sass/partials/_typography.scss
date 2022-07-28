@@ -1,34 +1,46 @@
 h1{
-  text-align: center;
+  text-align: right;
   color: $light-font;
-  margin-top: 5vh;
+  // margin: 5vh auto;
+  // display: inline-block;
+  margin: 0;
+  padding: 0;
   font-weight: bold;
   font-family: $font-family;
   letter-spacing: 10px;
   font-size: 30px;
   @include medium{
-    margin-top: 11vh;
-    letter-spacing: 35px;
-    font-size: 60px;
+    // margin-top: 0 auto;
+    letter-spacing: 30px;
+    font-size: 50px;
   }
   @include large{
-    letter-spacing: 40px;
-    font-size: 80px;
+    letter-spacing: 50px;
+    font-size: 90px;
+    // margin: 5vh auto;
+    // margin-top: 10vh;
   }
+  position: relative;
+  
 }
 
 h2{
   font-weight: bold;
   text-transform: uppercase;
-  width: 70vw;
+  width: 60vw;
   margin: 0;
   padding: 0;
-  font-size: 15px;
+  font-size: 10px;
   letter-spacing: 5px;
   @include medium{
     width: 50vw;
+    font-size: 25px;
+
+  }
+  @include large{
     font-size: 45px;
-    letter-spacing: 5px;
+    width: 50vw;
+    // letter-spacing: 5px;
     line-height: 40px;
   }
 }
@@ -38,9 +50,13 @@ h3{
   margin: 0;
   padding: 0;
   text-indent: 3px;
-  font-size: 10px;
-  letter-spacing: 5px;
+  font-size: 8px;
+  letter-spacing: 2px;
   @include medium{
+    letter-spacing: 3px;
+    font-size: 20px;
+  }
+  @include large{
     letter-spacing: 3px;
     font-size: 30px;
   }
@@ -51,4 +67,19 @@ p{
   float: right;
   text-align: center;
   letter-spacing: 5px;
+}
+
+h4{
+  text-align: right;
+  letter-spacing: 5px;
+  font-size: 0.5rem;
+  // padding-right: 4vw;
+  margin: 0;
+  @include medium{
+    font-size: 0.9rem;
+    // padding: 0;
+  }
+  @include large{
+    font-size: 1rem;
+  }
 }

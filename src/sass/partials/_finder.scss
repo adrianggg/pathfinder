@@ -1,7 +1,4 @@
 .finder {
-  // margin: 0 auto;
-  // width: 100%;
-  // height: 60vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -11,10 +8,17 @@
   > h2{
     text-align: center;
     font-size: 15px;
+    margin: 10px;
     @include medium{
       font-size: 30px;
     }
+    @include medium{
+      font-size: 40px;
+    }
     //   width: 100%;
+  }
+  @include large{
+    margin-top: 50vh;
   }
 }
 
@@ -38,8 +42,8 @@
   display: flex;
   flex-wrap: wrap;
   @include medium{
-    height: 80vw;
-    width: 80vw;
+    height: 70vw;
+    width: 70vw;
   }
   @include large{
     height: 60vh;
@@ -68,8 +72,10 @@
   font-weight: bold;
   text-transform: uppercase;
   @include large{
-    width: 160px;
-    height: 40px;
+    // letter-spacing: 4px;
+    font-size: .8rem;
+    width: 210px;
+    height: 45px;
   }
 }
 
@@ -81,11 +87,6 @@
 .short-path{
   background-color: $active-color;
 }
-
-// .start{
-//   background-color: white;
-// }
-
 
 .end{
   background-color: red;

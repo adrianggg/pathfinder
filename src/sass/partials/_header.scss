@@ -1,5 +1,13 @@
 header{
   height: 100vh;
   width: 100%;
-  background: linear-gradient(transparent 70%,#131313),url("../images/images/background.jpg") center/cover no-repeat;
+  background: linear-gradient(transparent 50%,#131313),url("../images/images/background.jpg") center/cover no-repeat;
+}
+
+.header-text{
+  width: 50vw;
+  position: absolute;
+  left: 0;
+  top: 15%;
+  transform: translate(50%,50%);
 }

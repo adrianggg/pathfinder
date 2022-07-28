@@ -169,39 +169,20 @@ class Path{
       path: [],
       status: 'Start'
     };
-
+    const directions = ['up','right','down','left'];
     var queue = [location];
 
     while (queue.length > 0) {
 
       var currentLocation = queue.shift();
-
-      var newLocation = this.exploreInDirection(currentLocation, 'up', grid);
-      if (newLocation.status === 'Goal') {
-        return newLocation.path;
-      } else if (newLocation.status === 'Valid') {
-        queue.push(newLocation);
-      }
-
-      newLocation = this.exploreInDirection(currentLocation, 'right', grid);
-      if (newLocation.status === 'Goal') {
-        return newLocation.path;
-      } else if (newLocation.status === 'Valid') {
-        queue.push(newLocation);
-      }
-
-      newLocation = this.exploreInDirection(currentLocation, 'down', grid);
-      if (newLocation.status === 'Goal') {
-        return newLocation.path;
-      } else if (newLocation.status === 'Valid') {
-        queue.push(newLocation);
-      }
-
-      newLocation = this.exploreInDirection(currentLocation, 'left', grid);
-      if (newLocation.status === 'Goal') {
-        return newLocation.path;
-      } else if (newLocation.status === 'Valid') {
-        queue.push(newLocation);
+      for(let e in directions){
+        var newLocation = this.exploreInDirection(currentLocation, directions[e], grid);
+        if (newLocation.status === 'Goal') {
+          return newLocation.path;
+        } else if (newLocation.status === 'Valid') {
+          queue.push(newLocation);
+        }
+        console.log(queue);
       }
     }
 
@@ -266,7 +247,36 @@ class Path{
     this.dom.wrapper.addEventListener('click',function(event){
       const clickedCol = parseInt(event.target.getAttribute('data-col'));
       const clickedRow = parseInt(event.target.getAttribute('data-row'));
-      if(
+      if(event.target.classList.contains('path')){
+        let adjacentSquares = 0;
+        if(document.querySelector(`[data-col="${clickedCol-1}"][data-row="${clickedRow}"]`) && document.querySelector(`[data-col="${clickedCol-1}"][data-row="${clickedRow}"]`).classList.contains('path')){
+          adjacentSquares++;
+        }
+        if(document.querySelector(`[data-col="${clickedCol+1}"][data-row="${clickedRow}"]`) && document.querySelector(`[data-col="${clickedCol+1}"][data-row="${clickedRow}"]`).classList.contains('path')){
+          adjacentSquares++;
+        }
+        if(document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow-1}"]`) && document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow-1}"]`).classList.contains('path')){
+          adjacentSquares++;
+        }
+        if(document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow+1}"]`) && document.querySelector(`[data-col="${clickedCol}"][data-row="${clickedRow+1}"]`).classList.contains('path')){
+          adjacentSquares++;
+        }
+
+        if(adjacentSquares<2){
+          event.target.classList.remove('path');  
+          for(let square in thisPath.pathArray){
+            console.log(square);
+            if(parseInt(event.target.getAttribute('data-row'))=== thisPath.pathArray[square].row &&
+             parseInt(event.target.getAttribute('data-col'))=== thisPath.pathArray[square].col){
+              console.log( thisPath.pathArray);
+              console.log(thisPath.pathArray[square].col);
+              console.log(parseInt(event.target.getAttribute('data-col')));
+              thisPath.pathArray.splice(square,1);
+              console.log( thisPath.pathArray);
+            }
+          }
+        }
+      }else if(
         event.target.classList.contains('square')
        &&
        !thisPath.dom.wrapper.querySelector('.path')

@@ -17,7 +17,6 @@ export const classNames = {
     end: 'end',
     start: 'short-path'
   },
-  // CODE ADDED START
   pages: {
     active: 'active',
   },

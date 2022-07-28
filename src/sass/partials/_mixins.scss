@@ -1,19 +1,19 @@
 $bp-sm: 650px;
-$bp-md: 880px;
+$bp-md: 820px;
 $bp-lg: 1250px;
 @mixin small {
-    @media all and (min-width: #{$bp-sm}) {
-        @content;
-    }
+  @media all and (min-width: #{$bp-sm}) {
+    @content;
+  }
 }
 @mixin medium {
-    @media all and (min-width: #{$bp-md}) {
-        @content;
-    }
+  @media all and (min-width: #{$bp-md}) {
+    @content;
+  }
 }
 
 @mixin large {
-    @media all and (min-width: #{$bp-lg}) {
-        @content;
-    }
+  @media all and (min-width: #{$bp-lg}) {
+    @content;
+  }
 }

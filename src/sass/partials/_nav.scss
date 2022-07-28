@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+
   > a {
     text-decoration: none;
     color: $light-font;
@@ -12,7 +13,12 @@
   }
   @include medium{
     > a {
-      font-size: 40px;
+      font-size: 30px;
+    }
+  }
+  @include large{
+    > a {
+      font-size: 20px;
     }
   }
 }

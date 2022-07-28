@@ -14,7 +14,7 @@
         "test:html": "html-validate src/*.html",
         "test:js": "eslint --fix src/js/",
         "test:scss": "stylelint --fix src/sass/",
-        "server": "json-server --port 3131 --no-cors --delay 250 --watch dist/db/app.json",
+        "server": "json-server --port 3131 --no-cors --watch dist/db/app.json",
         "build": "npm-run-all build:* test",
         "build:clean": "rimraf dist && mkdirp dist",
         "build:copy": "copyfiles -a -u 1 -e \"**/sass/**/*\" -e \"**/.gitkeep\" \"src/**/*\" dist",
@@ -47,6 +47,7 @@
         "stylelint-scss": "^3.5.4"
     },
     "dependencies": {
+        "http-server": "^14.1.1",
         "json-server": "^0.16.3",
         "sass": "^1.35.1"
     }
